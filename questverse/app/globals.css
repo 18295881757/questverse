@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+/* ============================================================
+   QuestVerse - 视觉风格系统
+   向《头号玩家》致敬:
+   - 赛博朋克霓虹色 (紫/青/品红)
+   - 像素字体
+   - CRT 扫描线效果
+   - 反乌托邦背景暗色基调
+   ============================================================ */
+
+@theme inline {
+  /* 主题色 - 霓虹调色板 */
+  --color-neon-cyan: #00fff5;
+  --color-neon-magenta: #ff2e88;
+  --color-neon-purple: #b14dff;
+  --color-neon-yellow: #f9e547;
+  --color-neon-green: #39ff14;
+
+  /* 暗背景 */
+  --color-deep-bg: #0a0a1a;
+  --color-midnight: #0f0f23;
+  --color-shadow: #050511;
+
+  /* 文字色 */
+  --color-text-primary: #e0e0ff;
+  --color-text-secondary: #8888aa;
+  --color-text-muted: #444466;
+
+  /* 字体 */
+  --font-pixel: var(--font-press-start), monospace;
+  --font-body: var(--font-geist-sans, sans-serif);
+}
+
+:root {
+  --background: var(--color-deep-bg);
+  --foreground: var(--color-text-primary);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* CRT 扫描线效果 */
+.crt-scanlines {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.15) 0px,
+      rgba(0, 0, 0, 0.15) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+}
+
+/* 霓虹辉光 */
+.neon-glow {
+  text-shadow:
+    0 0 4px currentColor,
+    0 0 11px currentColor,
+    0 0 19px currentColor;
+}
+
+/* 像素字体 */
+.font-pixel {
+  font-family: var(--font-pixel);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.arcade-rain {
+  background-image:
+    repeating-linear-gradient(
+      112deg,
+      transparent 0,
+      transparent 18px,
+      rgba(0, 255, 245, 0.36) 19px,
+      rgba(0, 255, 245, 0.36) 21px,
+      transparent 22px,
+      transparent 42px
+    ),
+    repeating-linear-gradient(
+      112deg,
+      transparent 0,
+      transparent 34px,
+      rgba(255, 46, 136, 0.22) 35px,
+      rgba(255, 46, 136, 0.22) 37px,
+      transparent 38px,
+      transparent 68px
+    );
+  background-size: 160px 160px, 220px 220px;
+  animation: arcade-rain-fall 0.8s linear infinite;
+  transform: skewX(-8deg);
+}
+
+@keyframes arcade-rain-fall {
+  from {
+    background-position: 0 0, 0 0;
+  }
+  to {
+    background-position: 0 160px, 0 220px;
+  }
+}

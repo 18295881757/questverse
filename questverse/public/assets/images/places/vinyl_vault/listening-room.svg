@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" shape-rendering="crispEdges">
+  <rect width="1280" height="720" fill="#050511"/>
+  <rect y="0" width="1280" height="520" fill="#0a0a1a"/>
+  <rect y="520" width="1280" height="200" fill="#111024"/>
+  <g opacity=".2">
+    <rect x="0" y="560" width="1280" height="8" fill="#b14dff"/>
+    <rect x="0" y="640" width="1280" height="6" fill="#f9e547"/>
+    <rect x="80" y="520" width="6" height="200" fill="#ff2e88"/>
+    <rect x="240" y="520" width="6" height="200" fill="#b14dff"/>
+    <rect x="400" y="520" width="6" height="200" fill="#ff2e88"/>
+    <rect x="560" y="520" width="6" height="200" fill="#b14dff"/>
+    <rect x="720" y="520" width="6" height="200" fill="#ff2e88"/>
+    <rect x="880" y="520" width="6" height="200" fill="#b14dff"/>
+    <rect x="1040" y="520" width="6" height="200" fill="#ff2e88"/>
+  </g>
+  <g>
+    <rect x="132" y="250" width="236" height="210" fill="#15132c"/>
+    <rect x="156" y="276" width="188" height="110" fill="#050511"/>
+    <circle cx="210" cy="330" r="34" fill="#b14dff"/>
+    <circle cx="210" cy="330" r="16" fill="#050511"/>
+    <circle cx="290" cy="330" r="34" fill="#b14dff"/>
+    <circle cx="290" cy="330" r="16" fill="#050511"/>
+    <rect x="188" y="408" width="124" height="16" fill="#f9e547"/>
+  </g>
+  <g>
+    <rect x="454" y="326" width="280" height="186" fill="#171331"/>
+    <rect x="498" y="358" width="178" height="126" fill="#080818"/>
+    <circle cx="587" cy="421" r="58" fill="#050511"/>
+    <circle cx="587" cy="421" r="38" fill="#251f4a"/>
+    <circle cx="587" cy="421" r="12" fill="#f9e547"/>
+    <rect x="670" y="382" width="12" height="86" fill="#ff2e88"/>
+    <rect x="682" y="456" width="34" height="12" fill="#ff2e88"/>
+  </g>
+  <g>
+    <rect x="918" y="208" width="150" height="320" fill="#15142f"/>
+    <rect x="940" y="232" width="106" height="260" fill="#050511"/>
+    <rect x="958" y="252" width="70" height="18" fill="#f9e547"/>
+    <rect x="958" y="292" width="70" height="18" fill="#b14dff"/>
+    <rect x="958" y="332" width="70" height="18" fill="#ff2e88"/>
+    <rect x="958" y="372" width="70" height="18" fill="#f9e547"/>
+    <rect x="958" y="412" width="70" height="18" fill="#b14dff"/>
+    <rect x="958" y="452" width="70" height="18" fill="#ff2e88"/>
+  </g>
+  <g>
+    <rect x="978" y="420" width="116" height="146" fill="#080818"/>
+    <rect x="998" y="440" width="76" height="86" fill="#111024"/>
+    <circle cx="1036" cy="482" r="30" fill="#2a2552"/>
+    <circle cx="1036" cy="482" r="12" fill="#050511"/>
+    <rect x="990" y="542" width="92" height="10" fill="#00fff5"/>
+  </g>
+  <g opacity=".35">
+    <rect x="0" y="0" width="1280" height="720" fill="url(#scan)"/>
+  </g>
+  <g opacity=".55">
+    <rect x="292" y="348" width="40" height="8" fill="#f9e547"/>
+    <rect x="654" y="454" width="40" height="8" fill="#f9e547"/>
+    <rect x="1018" y="468" width="40" height="8" fill="#f9e547"/>
+  </g>
+  <defs>
+    <pattern id="scan" width="8" height="8" patternUnits="userSpaceOnUse">
+      <rect width="8" height="1" fill="#000"/>
+    </pattern>
+  </defs>
+</svg>

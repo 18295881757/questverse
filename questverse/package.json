@@ -1,0 +1,33 @@
+{
+  "name": "questverse",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A web-based treasure-hunting puzzle game inspired by Ready Player One",
+  "scripts": {
+    "clean:next": "node scripts/clean-next.mjs",
+    "dev": "npm run clean:next && next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "^15.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "zustand": "^5.0.0",
+    "framer-motion": "^11.0.0",
+    "clsx": "^2.1.0",
+    "tailwind-merge": "^2.5.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^5",
+    "tailwindcss": "^4",
+    "eslint": "^9",
+    "eslint-config-next": "^15.0.0"
+  }
+}

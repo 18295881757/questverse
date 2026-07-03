@@ -1,0 +1,28 @@
+# Next.js
+node_modules/
+.next/
+out/
+
+# Production
+build/
+dist/
+
+# Misc
+.DS_Store
+*.pem
+*.log
+.env*.local
+
+# Typescript
+*.tsbuildinfo
+next-env.d.ts.bak
+
+# IDE
+.vscode/
+.idea/
+
+# QuestVerse specific - game save data
+data/saves/*.json
+
+# Audio assets (large files) - keep in LFS or external
+public/assets/audio/raw/
