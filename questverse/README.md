@@ -6,7 +6,7 @@
 
 ## 项目状态
 
-🚧 **Phase 1: 概念设计** — 进行中
+🚧 **Phase 2: MVP 原型** — 开发中
 
 ## 设计灵感
 
@@ -80,7 +80,7 @@ npm run build
 | 3 | M5-M6 | 核心游戏（完整三关卡 + 多星球） |
 | 4 | M7+ | 扩展与社交功能 |
 
-详细规划见 `docs/GAME_ROADMAP.md`（待写）。
+详细规划见 [docs/ROADMAP.md](docs/ROADMAP.md)。
 
 ## 许可
 

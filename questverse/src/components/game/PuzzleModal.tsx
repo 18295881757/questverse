@@ -138,10 +138,13 @@ function ReversePuzzle({
                 key={item.id}
                 type="button"
                 onClick={() => {
-                  setInput((current) => [
-                    ...current,
-                    item.id.replace("arrow_", "").toUpperCase(),
-                  ]);
+                  setInput((current) => {
+                    if (current.length >= expected.length) return current;
+                    return [
+                      ...current,
+                      item.id.replace("arrow_", "").toUpperCase(),
+                    ];
+                  });
                   setStatus("idle");
                 }}
                 className="rounded border border-[var(--color-neon-cyan)]/50 px-4 py-3 font-pixel text-xs text-[var(--color-neon-cyan)] transition-colors hover:bg-[var(--color-neon-cyan)] hover:text-[var(--color-deep-bg)]"
@@ -228,6 +231,7 @@ function HiddenObjectPuzzle({
   const [status, setStatus] = useState<"playing" | "failed" | "solved">(
     "playing"
   );
+  const [rewardApplied, setRewardApplied] = useState(false);
 
   const solved = status === "solved";
   const failed = status === "failed";
@@ -248,20 +252,32 @@ function HiddenObjectPuzzle({
     return () => window.clearInterval(timer);
   }, [failed, solved]);
 
-  function markFound(targetId: string) {
-    if (solved || failed || foundTargets.includes(targetId)) return;
+  useEffect(() => {
+    if (status !== "playing") return;
+    if (foundTargets.length !== puzzle.targets.length) return;
 
-    const nextFound = [...foundTargets, targetId];
-    setFoundTargets(nextFound);
+    setStatus("solved");
+  }, [foundTargets.length, puzzle.targets.length, status]);
 
-    if (nextFound.length === puzzle.targets.length) {
-      setStatus("solved");
-      actions.applyPuzzleReward(puzzle.id, puzzle.reward);
-      if (puzzle.easterEgg) {
-        actions.recordEasterEgg(puzzle.easterEgg);
-        actions.openEasterEgg(puzzle.easterEgg, "REVERIE SIGNAL RESTORED");
-      }
+  useEffect(() => {
+    if (!solved || rewardApplied) return;
+
+    actions.applyPuzzleReward(puzzle.id, puzzle.reward);
+    if (puzzle.easterEgg) {
+      actions.recordEasterEgg(puzzle.easterEgg);
+      actions.openEasterEgg(puzzle.easterEgg, "REVERIE SIGNAL RESTORED");
     }
+    setRewardApplied(true);
+  }, [actions, puzzle.easterEgg, puzzle.id, puzzle.reward, rewardApplied, solved]);
+
+  function markFound(targetId: string) {
+    if (solved || failed) return;
+
+    setFoundTargets((current) => {
+      if (current.includes(targetId)) return current;
+
+      return [...current, targetId];
+    });
   }
 
   function reset() {
@@ -269,6 +285,7 @@ function HiddenObjectPuzzle({
     setHintLevel(0);
     setTimeLeft(puzzle.timeLimit ?? 60);
     setStatus("playing");
+    setRewardApplied(false);
   }
 
   return (
@@ -320,13 +337,18 @@ function HiddenObjectPuzzle({
                   transform: "translate(-50%, -50%)",
                 }}
                 className={cn(
-                  "absolute rounded-full border transition-all",
+                  "absolute rounded-full border transition-all focus:outline-none focus:ring-2 focus:ring-[var(--color-neon-yellow)]",
                   found
                     ? "border-[var(--color-neon-green)] bg-[var(--color-neon-green)]/30 shadow-[0_0_24px_var(--color-neon-green)]"
                     : "border-[var(--color-neon-yellow)]/20 bg-[var(--color-neon-yellow)]/5 hover:border-[var(--color-neon-yellow)] hover:bg-[var(--color-neon-yellow)]/20"
                 )}
               >
                 <span className="sr-only">{target.description}</span>
+                {found && (
+                  <span className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-pixel text-[10px] text-[var(--color-neon-green)]">
+                    ✓
+                  </span>
+                )}
               </button>
             );
           })}

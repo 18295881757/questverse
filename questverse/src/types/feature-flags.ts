@@ -17,6 +17,7 @@ export interface GameActions {
   recordEasterEgg: (eggId: string) => void;
   setFlag: (key: string, value: boolean | string | number) => void;
   travelTo: (planetId: string, sceneId: string) => void;
+  tickPlayTime: (seconds: number) => void;
 }
 
 /**

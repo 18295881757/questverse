@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">Neon Arcade hidden room</title>
+  <desc id="desc">A pixel-art secret room with a CRT terminal, Atari console, posters, and a handwritten note.</desc>
+  <rect width="1280" height="720" fill="#070716"/>
+  <rect y="514" width="1280" height="206" fill="#09091f"/>
+  <path d="M0 514h1280" stroke="#ff2e88" stroke-width="4" opacity=".45"/>
+  <g opacity=".22" stroke="#00fff5" stroke-width="1">
+    <path d="M0 560h1280M0 604h1280M0 648h1280M0 692h1280"/>
+    <path d="M80 514v206M180 514v206M280 514v206M380 514v206M480 514v206M580 514v206M680 514v206M780 514v206M880 514v206M980 514v206M1080 514v206M1180 514v206"/>
+  </g>
+
+  <g opacity=".3">
+    <rect x="84" y="80" width="188" height="132" fill="#111133" stroke="#b14dff" stroke-width="4"/>
+    <rect x="104" y="102" width="148" height="88" fill="#050511"/>
+    <path d="M122 125h112M122 148h80M122 171h118" stroke="#39ff14" stroke-width="6"/>
+    <text x="118" y="240" fill="#8888aa" font-family="monospace" font-size="22">SYSTEM MAP</text>
+  </g>
+
+  <g>
+    <rect x="410" y="178" width="420" height="252" rx="10" fill="#181833" stroke="#00fff5" stroke-width="6"/>
+    <rect x="446" y="212" width="348" height="174" rx="14" fill="#08140f" stroke="#39ff14" stroke-width="4"/>
+    <g fill="#39ff14" font-family="monospace" font-size="28">
+      <text x="480" y="268">A.N. REVERIE</text>
+      <text x="480" y="314">FIRST SIGNAL</text>
+      <text x="480" y="360">LISTEN NEXT...</text>
+    </g>
+    <rect x="538" y="430" width="164" height="38" fill="#0f0f23" stroke="#8888aa" stroke-width="4"/>
+    <rect x="494" y="468" width="252" height="34" fill="#050511" stroke="#444466" stroke-width="4"/>
+  </g>
+
+  <g>
+    <rect x="220" y="536" width="248" height="72" fill="#2a1730" stroke="#ff2e88" stroke-width="5"/>
+    <rect x="252" y="508" width="188" height="34" fill="#1a1a36" stroke="#f9e547" stroke-width="4"/>
+    <rect x="276" y="518" width="46" height="14" fill="#f9e547"/>
+    <circle cx="378" cy="525" r="11" fill="#ff2e88"/>
+    <rect x="248" y="620" width="40" height="76" fill="#111133"/>
+    <rect x="400" y="620" width="40" height="76" fill="#111133"/>
+  </g>
+
+  <g>
+    <rect x="792" y="480" width="186" height="124" fill="#1b1430" stroke="#b14dff" stroke-width="5"/>
+    <rect x="818" y="504" width="134" height="76" fill="#f9e547"/>
+    <path d="M838 526h92M838 550h72M838 570h102" stroke="#050511" stroke-width="7"/>
+    <text x="810" y="636" fill="#8888aa" font-family="monospace" font-size="22">REVERIE NOTE</text>
+  </g>
+
+  <g>
+    <rect x="994" y="118" width="162" height="220" fill="#130f26" stroke="#ff2e88" stroke-width="5"/>
+    <rect x="1018" y="144" width="114" height="154" fill="#0a0a1a" stroke="#00fff5" stroke-width="3"/>
+    <path d="M1036 170h78M1036 194h50M1036 218h88M1036 242h66M1036 266h74" stroke="#f9e547" stroke-width="8"/>
+    <text x="1010" y="372" fill="#ff2e88" font-family="monospace" font-size="24">ADVENTURE</text>
+  </g>
+
+  <g opacity=".62">
+    <rect x="24" y="292" width="88" height="234" fill="#050511" stroke="#00fff5" stroke-width="4"/>
+    <path d="M112 410h130" stroke="#00fff5" stroke-width="5"/>
+    <text x="40" y="414" fill="#00fff5" font-family="monospace" font-size="24" transform="rotate(-90 40 414)">EXIT</text>
+  </g>
+
+  <g opacity=".16">
+    <rect width="1280" height="720" fill="url(#scan)"/>
+  </g>
+  <defs>
+    <pattern id="scan" width="1" height="5" patternUnits="userSpaceOnUse">
+      <rect width="1" height="2" fill="#000"/>
+    </pattern>
+  </defs>
+</svg>

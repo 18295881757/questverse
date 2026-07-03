@@ -128,8 +128,76 @@ export const scenesNeonArcade: Scene[] = [
         label: "???",
         trigger: {
           kind: "transition",
+          targetSceneId: "neon_arcade_hidden_room",
+          prompt:
+            "铜钥匙碎片贴近门缝时发出一声轻响。隐藏房间的锁芯终于转动了。",
+          requires: {
+            items: ["key_fragment_atari"],
+            message:
+              "门上的读卡器只闪了一下红光。它在等待一枚来自 Adventure 街机的钥匙碎片。",
+          },
+        },
+      },
+    ],
+  },
+  {
+    id: "neon_arcade_hidden_room",
+    name: "隐藏房间",
+    background: "/assets/images/places/neon_arcade/hidden-room.svg",
+    darkMode: "dark",
+    ambientMusic: "ambient_secret_room",
+    hotspots: [
+      {
+        id: "hs_reverie_terminal",
+        x: 48,
+        y: 43,
+        width: 18,
+        height: 16,
+        label: "旧终端",
+        trigger: {
+          kind: "examine",
+          text:
+            "绿色字符在 CRT 上缓慢浮现：'第一把钥匙不是奖品，它是坐标。去听那张永远不会播完的黑胶。—— A.N. Reverie'",
+        },
+      },
+      {
+        id: "hs_atari_console",
+        x: 28,
+        y: 62,
+        width: 16,
+        height: 12,
+        label: "Atari 主机",
+        trigger: {
+          kind: "easter_egg",
+          eggId: "atari_2600_console",
+          flavorText:
+            "木纹面板、黑色摇杆、红色按钮。致敬 Atari 2600，这台机器把客厅变成了宇宙入口。",
+        },
+      },
+      {
+        id: "hs_reverie_note",
+        x: 66,
+        y: 59,
+        width: 16,
+        height: 12,
+        label: "手写笔记",
+        trigger: {
+          kind: "item",
+          itemId: "note_reverie_first_signal",
+          oneTime: true,
+        },
+      },
+      {
+        id: "hs_hidden_room_exit",
+        x: 5,
+        y: 48,
+        width: 8,
+        height: 26,
+        label: "回到主厅",
+        trigger: {
+          kind: "transition",
           targetSceneId: "neon_arcade_hall",
-          prompt: "禁止入内",
+          prompt: "主厅的霓虹光从门缝里漏进来。",
         },
       },
     ],
@@ -151,6 +219,7 @@ export const firstPuzzle: PuzzleSequence = {
   reward: {
     itemId: "key_fragment_atari",
     storyProgress: 25,
+    setsFlag: "met_first_master",
   },
   easterEgg: "robinett_1979",
   // 谜题具体配置由谜题模板填充
@@ -173,4 +242,14 @@ export const firstKeyFragment: Item = {
   isKeyFragment: true,
   lore:
     "这枚碎片象征着'逆向思维'。Warren Robinett 在公司不让他署名的时代，用隐藏的名字赢得了永恒的纪念 — 这是游戏作者对游戏玩家的第一封情书。",
+};
+
+export const firstSignalNote: Item = {
+  id: "note_reverie_first_signal",
+  name: "Reverie 的第一封便签",
+  description:
+    "一张贴在 CRT 旁边的便签：'你已经学会倒着读历史。下一步，去听噪声里缺失的那一拍。'",
+  icon: "📝",
+  lore:
+    "A.N. Reverie 没有直接告诉玩家答案。他只留下足够多的方向，让愿意继续探索的人自己走到下一颗星球。",
 };

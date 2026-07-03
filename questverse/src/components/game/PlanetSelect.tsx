@@ -12,7 +12,7 @@ function hasStoreHydrated() {
 
 export function PlanetSelect() {
   const progress = useGameStore((s) => s.progress);
-  const [hasHydrated, setHasHydrated] = useState(hasStoreHydrated);
+  const [hasHydrated, setHasHydrated] = useState(false);
 
   useEffect(() => {
     setHasHydrated(hasStoreHydrated());

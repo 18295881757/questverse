@@ -26,7 +26,7 @@
 ### 待办
 - [ ] 3 张低保真线框图（主页、场景视图、谜题弹窗）
 - [ ] 1 个像素风招牌 + 1 个街机厅外景（用 Piskel 画或从 OpenGameArt 找）
-- [ ] 实际运行 `npm install` + `npm run dev` 验证
+- [x] 实际运行 `npm install` + `npm run dev` 验证
 - [x] 第二颗星球（黑胶唱片室）草案
 - [x] 第二类谜题 (courage/hidden_object) 设计与基础 UI
 
@@ -35,6 +35,28 @@
 文档包完整：GDD + 风格指南 + 两颗星球设计 + 三类谜题定义  
 代码可运行：`npm install` + `npm run dev` 不报错  
 测试场景可访问：`/play/neon_arcade/neon_arcade_entry` 可点击
+
+## Phase 2 任务清单 (M3-M4)
+
+### 当前切片：第一颗星球可玩闭环
+
+- [x] 解开铜钥匙后开放 `neon_arcade_hidden_room`
+- [x] 隐藏房间新增 A.N. Reverie 终端、Atari 主机彩蛋、手写便签
+- [x] 场景跳转支持 `requires.items` / `requires.flags` 条件
+- [x] 记忆档案页接入 LocalStorage，展示故事进度、钥匙、笔记和彩蛋
+- [x] HUD 游玩时间开始递增并以 `MM:SS` 展示
+- [x] 第二星球试听室新增玉钥匙后的声纹抽屉线索
+- [x] 第二星球基础玉钥匙闭环：唱机隐藏物谜题 → `key_fragment_vinyl` → 声纹抽屉 → `note_reverie_second_signal`
+
+### 待办
+
+- [ ] 第一颗星球扩展到 5+ 个实际可用 hotspots
+- [ ] 增加至少 2 个非钥匙谜题或线索链
+- [ ] 第二星球扩展为 15+ 分钟完整关卡（更多线索、失败反馈、非钥匙谜题）
+- [ ] 补充 30-45 分钟试玩节奏文档
+- [ ] 移动端 375x667 专项复测
+- [ ] 键盘导航可访问性复测
+- [ ] 发布公开 demo URL
 
 ## 关键里程碑
 
@@ -73,4 +95,4 @@
 - 移动端原生 app
 - 真实支付
 
-> 最后更新: 2026-07-02
+> 最后更新: 2026-07-03

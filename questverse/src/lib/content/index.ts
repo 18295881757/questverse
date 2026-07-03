@@ -3,12 +3,14 @@ import {
   scenesNeonArcade,
   firstPuzzle,
   firstKeyFragment,
+  firstSignalNote,
 } from "./planets/neon-arcade";
 import {
   planetVinylVault,
   scenesVinylVault,
   lostFrequenciesPuzzle,
   vinylKeyFragment,
+  secondSignalNote,
 } from "./planets/vinyl-vault";
 import type { Item, Puzzle, Scene } from "@/types/scene";
 
@@ -37,7 +39,9 @@ export const puzzlesById = new Map<string, Puzzle>([
 // 物品
 export const itemsById = new Map<string, Item>([
   [firstKeyFragment.id, firstKeyFragment],
+  [firstSignalNote.id, firstSignalNote],
   [vinylKeyFragment.id, vinylKeyFragment],
+  [secondSignalNote.id, secondSignalNote],
 ]);
 
 /**

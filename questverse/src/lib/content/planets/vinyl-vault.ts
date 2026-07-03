@@ -132,6 +132,24 @@ export const scenesVinylVault: Scene[] = [
           prompt: "回到门口。",
         },
       },
+      {
+        id: "hs_signal_drawer",
+        x: 82,
+        y: 65,
+        width: 10,
+        height: 8,
+        label: "声纹抽屉",
+        trigger: {
+          kind: "item",
+          itemId: "note_reverie_second_signal",
+          oneTime: true,
+          requires: {
+            items: ["key_fragment_vinyl"],
+            message:
+              "抽屉里只有沙沙作响的静电。三段频率重合之后，它也许会吐出真正的声纹。",
+          },
+        },
+      },
     ],
   },
 ];
@@ -187,4 +205,14 @@ export const vinylKeyFragment: Item = {
   isKeyFragment: true,
   lore:
     "这枚碎片象征着勇气。你没有关掉噪声，而是走近它，听见了藏在恐惧背后的旋律。",
+};
+
+export const secondSignalNote: Item = {
+  id: "note_reverie_second_signal",
+  name: "Reverie 的第二段声纹",
+  description:
+    "一张透明胶片，上面刻着三段重合的波形：'不是所有恐惧都需要被战胜，有些只需要被完整听见。'",
+  icon: "〰️",
+  lore:
+    "这段声纹把玉钥匙指向下一段旅程：影像、倒放和那些被剪掉的镜头。",
 };

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useGameStore } from "@/lib/game-engine/index";
@@ -177,6 +178,35 @@ function ItemPickupTrigger({
   const trigger = hotspot.trigger as Extract<Hotspot["trigger"], { kind: "item" }>;
   const item = getItem(trigger.itemId);
   const addItem = useGameStore((s) => s._uiActions.addItem);
+  const progress = useGameStore((s) => s.progress);
+  const missingItems =
+    trigger.requires?.items?.filter((itemId) => !progress.inventory.includes(itemId)) ??
+    [];
+  const missingFlags =
+    trigger.requires?.flags?.filter((flag) => !progress.flags[flag]) ?? [];
+  const canPickUp = missingItems.length === 0 && missingFlags.length === 0;
+
+  if (!canPickUp) {
+    return (
+      <CardShell onClose={onClose}>
+        <p className="text-sm leading-relaxed text-[var(--color-text-primary)]">
+          {trigger.requires?.message ??
+            "这个物品像是在等待某段信号完成之后才会显现。"}
+        </p>
+        <p className="mt-4 font-pixel text-[9px] text-[var(--color-neon-yellow)]">
+          {missingItems.length > 0
+            ? `REQUIRES: ${missingItems.join(" / ")}`
+            : `REQUIRES FLAG: ${missingFlags.join(" / ")}`}
+        </p>
+        <button
+          onClick={onClose}
+          className="mt-6 font-pixel text-[10px] text-[var(--color-neon-cyan)] hover:underline"
+        >
+          [关闭]
+        </button>
+      </CardShell>
+    );
+  }
 
   return (
     <CardShell onClose={onClose}>
@@ -219,12 +249,29 @@ function TransitionTrigger({
   >;
   const router = useRouter();
   const travelTo = useGameStore((s) => s._uiActions.travelTo);
+  const progress = useGameStore((s) => s.progress);
+  const [isTraveling, setIsTraveling] = useState(false);
+  const missingItems =
+    trigger.requires?.items?.filter((itemId) => !progress.inventory.includes(itemId)) ??
+    [];
+  const missingFlags =
+    trigger.requires?.flags?.filter((flag) => !progress.flags[flag]) ?? [];
+  const canTravel = missingItems.length === 0 && missingFlags.length === 0;
 
   return (
     <CardShell onClose={onClose}>
       <p className="text-sm text-[var(--color-text-primary)]">
-        {trigger.prompt ?? "你要去哪里？"}
+        {canTravel
+          ? (trigger.prompt ?? "你要去哪里？")
+          : (trigger.requires?.message ?? "这里还没有响应。也许你缺少某个关键物品。")}
       </p>
+      {!canTravel && (
+        <p className="mt-4 font-pixel text-[9px] text-[var(--color-neon-yellow)]">
+          {missingItems.length > 0
+            ? `REQUIRES: ${missingItems.join(" / ")}`
+            : `REQUIRES FLAG: ${missingFlags.join(" / ")}`}
+        </p>
+      )}
       <div className="mt-6 flex gap-3">
         <button
           onClick={onClose}
@@ -234,13 +281,21 @@ function TransitionTrigger({
         </button>
         <button
           onClick={() => {
+            if (!canTravel || isTraveling) return;
+            setIsTraveling(true);
             travelTo(planetId, trigger.targetSceneId);
             router.push(`/play/${planetId}/${trigger.targetSceneId}`);
             onClose();
           }}
-          className="rounded border border-[var(--color-neon-cyan)] bg-[var(--color-neon-cyan)]/10 px-4 py-2 font-pixel text-[10px] text-[var(--color-neon-cyan)]"
+          disabled={!canTravel || isTraveling}
+          className={cn(
+            "rounded border px-4 py-2 font-pixel text-[10px]",
+            canTravel
+              ? "border-[var(--color-neon-cyan)] bg-[var(--color-neon-cyan)]/10 text-[var(--color-neon-cyan)]"
+              : "cursor-not-allowed border-[var(--color-text-muted)] text-[var(--color-text-muted)]"
+          )}
         >
-          前往 →
+          {isTraveling ? "前往中..." : "前往 →"}
         </button>
       </div>
     </CardShell>

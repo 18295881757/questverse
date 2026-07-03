@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useGameStore } from "@/lib/game-engine/index";
 import { getScene } from "@/lib/content";
@@ -27,11 +27,22 @@ export function SceneView({
 }) {
   const scene = getScene(sceneId);
   const [selectedHotspot, setSelectedHotspot] = useState<Hotspot | null>(null);
+  const tickPlayTime = useGameStore((s) => s._uiActions.tickPlayTime);
 
   // Hooks 必须在条件之前
   const onHotspotClick = useCallback((h: Hotspot) => {
     setSelectedHotspot(h);
   }, []);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      if (document.visibilityState === "visible") {
+        tickPlayTime(30);
+      }
+    }, 30000);
+
+    return () => window.clearInterval(interval);
+  }, [tickPlayTime]);
 
   if (!scene) {
     return (
@@ -176,6 +187,11 @@ function HUD() {
   const progress = useGameStore((s) => s.progress);
   const totalFragments = 3; // 三把钥匙
   const found = progress.inventory.filter((id) => id.includes("key_")).length;
+  const minutes = Math.floor(progress.playTime / 60);
+  const seconds = progress.playTime % 60;
+  const playTimeLabel = `${String(minutes).padStart(2, "0")}:${String(
+    seconds
+  ).padStart(2, "0")}`;
 
   return (
     <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between font-pixel text-[9px]">
@@ -184,7 +200,7 @@ function HUD() {
         <span>{progress.foundEasterEggs.length} 🥚</span>
       </div>
       <div className="text-[var(--color-text-muted)]">
-        {Math.floor(progress.playTime / 60)}m
+        {playTimeLabel}
       </div>
     </div>
   );

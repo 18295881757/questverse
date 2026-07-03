@@ -66,6 +66,8 @@ export interface HotspotTriggerItem {
   itemId: string;
   /** 拾取后是否消失 */
   oneTime: boolean;
+  /** 拾取条件（如需要先完成谜题获得钥匙） */
+  requires?: HotspotRequirement;
 }
 
 export interface HotspotTriggerTransition {
@@ -74,6 +76,14 @@ export interface HotspotTriggerTransition {
   targetSceneId: string;
   /** 视觉提示文字 */
   prompt?: string;
+  /** 进入条件（如需要钥匙碎片或剧情 flag） */
+  requires?: HotspotRequirement;
+}
+
+export interface HotspotRequirement {
+  items?: string[];
+  flags?: string[];
+  message?: string;
 }
 
 export interface HotspotTriggerEasterEgg {

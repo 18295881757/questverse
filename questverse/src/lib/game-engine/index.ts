@@ -147,6 +147,16 @@ export const useGameStore = create<GameState>()(
             },
           }));
         },
+        tickPlayTime: (seconds: number) => {
+          if (seconds <= 0) return;
+          set((state) => ({
+            progress: {
+              ...state.progress,
+              playTime: state.progress.playTime + seconds,
+              lastSavedAt: new Date().toISOString(),
+            },
+          }));
+        },
       },
     }),
     {
