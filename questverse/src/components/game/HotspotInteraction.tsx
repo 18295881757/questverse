@@ -179,6 +179,7 @@ function ItemPickupTrigger({
   const item = getItem(trigger.itemId);
   const addItem = useGameStore((s) => s._uiActions.addItem);
   const progress = useGameStore((s) => s.progress);
+  const alreadyPickedUp = trigger.oneTime && progress.inventory.includes(trigger.itemId);
   const missingItems =
     trigger.requires?.items?.filter((itemId) => !progress.inventory.includes(itemId)) ??
     [];
@@ -197,6 +198,28 @@ function ItemPickupTrigger({
           {missingItems.length > 0
             ? `REQUIRES: ${missingItems.join(" / ")}`
             : `REQUIRES FLAG: ${missingFlags.join(" / ")}`}
+        </p>
+        <button
+          onClick={onClose}
+          className="mt-6 font-pixel text-[10px] text-[var(--color-neon-cyan)] hover:underline"
+        >
+          [关闭]
+        </button>
+      </CardShell>
+    );
+  }
+
+  if (alreadyPickedUp) {
+    return (
+      <CardShell onClose={onClose}>
+        <p className="font-pixel text-xs text-[var(--color-neon-green)] neon-glow">
+          ARCHIVED
+        </p>
+        <h2 className="mt-3 font-pixel text-base text-[var(--color-neon-yellow)]">
+          {item?.icon} {item?.name ?? "未知物品"}
+        </h2>
+        <p className="mt-4 text-sm leading-relaxed text-[var(--color-text-secondary)]">
+          这件物品已经写入你的记忆档案。
         </p>
         <button
           onClick={onClose}

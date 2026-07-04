@@ -204,9 +204,22 @@ export interface PuzzleCode extends PuzzleBase {
 }
 
 /** 逻辑谜题 */
+export interface PuzzleOrderingData {
+  logicKind: "ordering";
+  instructions: string;
+  choices: {
+    id: string;
+    label: string;
+    detail: string;
+  }[];
+  correctOrder: string[];
+  failureText: string;
+  successText: string;
+}
+
 export interface PuzzleLogic extends PuzzleBase {
   type: "wisdom";
-  puzzleData: Record<string, unknown>;
+  puzzleData: PuzzleOrderingData | Record<string, unknown>;
 }
 
 export interface PuzzleReward {

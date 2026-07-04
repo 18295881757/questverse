@@ -1,4 +1,11 @@
-import type { Item, Planet, PuzzleCode, PuzzleHiddenObject, Scene } from "@/types/scene";
+import type {
+  Item,
+  Planet,
+  PuzzleCode,
+  PuzzleHiddenObject,
+  PuzzleLogic,
+  Scene,
+} from "@/types/scene";
 
 /**
  * 第二颗星球：黑胶唱片室 (Vinyl Vault)
@@ -137,6 +144,35 @@ export const scenesVinylVault: Scene[] = [
         },
       },
       {
+        id: "hs_record_sorter",
+        x: 67,
+        y: 60,
+        width: 14,
+        height: 11,
+        label: "排序台",
+        trigger: {
+          kind: "puzzle",
+          puzzleId: "puzzle_record_release_order",
+          onSolve: {
+            itemId: "note_vinyl_calibration_disc",
+            setsFlag: "sorted_vinyl_archive",
+            storyProgress: 58,
+          },
+        },
+      },
+      {
+        id: "hs_echo7_receiver",
+        x: 31,
+        y: 69,
+        width: 10,
+        height: 9,
+        label: "Echo-7 接收器",
+        trigger: {
+          kind: "examine",
+          text: "接收器里的合成声断断续续：'我是 Echo-7。别把噪声当敌人。先确认顺序，再确认恐惧。Joy Division 在前，Kraftwerk 的秩序在后，Reverie 只借用它们之间的空槽。'",
+        },
+      },
+      {
         id: "hs_tape_archive_door",
         x: 88,
         y: 34,
@@ -149,9 +185,9 @@ export const scenesVinylVault: Scene[] = [
           prompt:
             "倒放标签贴近门上的读头时，磁带轮开始反向转动。门缝里漏出一帧被剪掉的影像。",
           requires: {
-            flags: ["decoded_rewind_label"],
+            flags: ["decoded_rewind_label", "sorted_vinyl_archive"],
             message:
-              "门上的读头只吐出一串反向字母：DNIWER。你还没有让它按正确方向播放。",
+              "门上的读头吐出两段噪声：DNIWER / ORDER。你需要先解开倒放标签，并把唱片档案恢复到正确顺序。",
           },
         },
       },
@@ -324,6 +360,61 @@ export const reversedLabelPuzzle: PuzzleCode = {
     "标签背面的磁粉浮出一句话：'下一段影像要先倒回去看，真正缺失的不是画面，是剪辑点。'",
 };
 
+export const recordReleaseOrderPuzzle: PuzzleLogic = {
+  id: "puzzle_record_release_order",
+  type: "wisdom",
+  name: "唱片排序：噪声之前",
+  hint: "排序台上放着四张缺失年份的唱片。Echo-7 说：'别按你喜欢的顺序听，按它们成为记忆的顺序听。'",
+  hints: [
+    "Echo-7: 先看年份，不要看颜色。",
+    "Echo-7: Joy Division 的波形先出现，Kraftwerk 的机器节拍随后校准房间。",
+    "Echo-7: 正确顺序是 1977 → 1978 → 1979 → 1981。",
+  ],
+  maxHints: 3,
+  reward: {
+    itemId: "note_vinyl_calibration_disc",
+    storyProgress: 58,
+    setsFlag: "sorted_vinyl_archive",
+  },
+  puzzleData: {
+    logicKind: "ordering",
+    instructions:
+      "按发行年份从早到晚排列这些实体媒介。排序错误不会惩罚你，但 Echo-7 会指出房间哪里还没有对齐。",
+    choices: [
+      {
+        id: "unknown_pleasures",
+        label: "Unknown Pleasures / 1979",
+        detail: "黑底白线的脉冲波形，门口海报也在重复这条线。",
+      },
+      {
+        id: "trans_europe_express",
+        label: "Trans-Europe Express / 1977",
+        detail: "机器节拍像轨道一样铺开，是这间房最早的秩序信号。",
+      },
+      {
+        id: "computer_world",
+        label: "Computer World / 1981",
+        detail: "计算机合唱把档案变成一张会自我索引的网。",
+      },
+      {
+        id: "the_man_machine",
+        label: "The Man-Machine / 1978",
+        detail: "红黑构图像校准用的测试卡，夹在机器和人之间。",
+      },
+    ],
+    correctOrder: [
+      "trans_europe_express",
+      "the_man_machine",
+      "unknown_pleasures",
+      "computer_world",
+    ],
+    failureText:
+      "Echo-7: '顺序错了。你不是在排喜好榜，你是在复原一段时间线。把最早的机器节拍放到最前面。'",
+    successText:
+      "四张唱片依次落针，空槽噪声被压成一条稳定的参考线。排序台弹出一枚薄薄的校准片。",
+  },
+};
+
 export const vinylKeyFragment: Item = {
   id: "key_fragment_vinyl",
   name: "Vinyl 钥匙碎片",
@@ -352,6 +443,16 @@ export const rewindLabelNote: Item = {
   icon: "⏪",
   lore:
     "这条线索把黑胶唱片室和未来的影像星球接起来：不是所有答案都藏在当前帧，有些藏在剪辑顺序里。",
+};
+
+export const vinylCalibrationNote: Item = {
+  id: "note_vinyl_calibration_disc",
+  name: "Echo-7 的校准片",
+  description:
+    "一枚薄薄的透明唱片，边缘刻着：'顺序不是答案本身，顺序让答案可以被听见。'",
+  icon: "◎",
+  lore:
+    "Echo-7 用唱片发行年帮玩家理解这颗星球的真正规则：面对噪声之前，先让时间线重新站稳。",
 };
 
 export const cutFrameNote: Item = {

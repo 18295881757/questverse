@@ -4,7 +4,13 @@ import { useEffect, useMemo, useState } from "react";
 import { useGameStore } from "@/lib/game-engine/index";
 import { getPuzzle } from "@/lib/content";
 import { cn } from "@/lib/utils/cn";
-import type { PuzzleCode, PuzzleHiddenObject, PuzzleSequence } from "@/types/scene";
+import type {
+  PuzzleCode,
+  PuzzleHiddenObject,
+  PuzzleLogic,
+  PuzzleOrderingData,
+  PuzzleSequence,
+} from "@/types/scene";
 
 /**
  * PuzzleModal - 谜题全屏模态
@@ -51,6 +57,20 @@ export function PuzzleModal() {
     );
   }
 
+  if (
+    puzzle.type === "wisdom" &&
+    "puzzleData" in puzzle &&
+    isOrderingPuzzleData((puzzle as PuzzleLogic).puzzleData)
+  ) {
+    return (
+      <OrderingPuzzle
+        puzzle={puzzle as PuzzleLogic}
+        data={(puzzle as PuzzleLogic).puzzleData as PuzzleOrderingData}
+        onClose={actions.closePuzzle}
+      />
+    );
+  }
+
   return (
     <ModalShell onClose={actions.closePuzzle}>
       <h2 className="font-pixel text-base text-[var(--color-neon-yellow)] neon-glow">
@@ -65,6 +85,222 @@ export function PuzzleModal() {
 
 function normalizeCodeAnswer(value: string) {
   return value.trim().toUpperCase().replace(/\s+/g, " ");
+}
+
+function isOrderingPuzzleData(data: unknown): data is PuzzleOrderingData {
+  return (
+    typeof data === "object" &&
+    data !== null &&
+    "logicKind" in data &&
+    (data as { logicKind?: unknown }).logicKind === "ordering"
+  );
+}
+
+function OrderingPuzzle({
+  puzzle,
+  data,
+  onClose,
+}: {
+  puzzle: PuzzleLogic;
+  data: PuzzleOrderingData;
+  onClose: () => void;
+}) {
+  const actions = useGameStore((s) => s._uiActions);
+  const [selectedOrder, setSelectedOrder] = useState<string[]>([]);
+  const [hintLevel, setHintLevel] = useState(0);
+  const [status, setStatus] = useState<"idle" | "wrong" | "solved">("idle");
+
+  const solved = status === "solved";
+  const remainingChoices = data.choices.filter(
+    (choice) => !selectedOrder.includes(choice.id)
+  );
+  const selectedChoices = selectedOrder
+    .map((id) => data.choices.find((choice) => choice.id === id))
+    .filter((choice): choice is PuzzleOrderingData["choices"][number] =>
+      Boolean(choice)
+    );
+
+  function submit() {
+    const isCorrect =
+      selectedOrder.length === data.correctOrder.length &&
+      selectedOrder.every((id, index) => id === data.correctOrder[index]);
+
+    if (!isCorrect) {
+      setStatus("wrong");
+      return;
+    }
+
+    setStatus("solved");
+    actions.applyPuzzleReward(puzzle.id, puzzle.reward);
+    if (puzzle.easterEgg) {
+      actions.recordEasterEgg(puzzle.easterEgg);
+      actions.openEasterEgg(puzzle.easterEgg, "ARCHIVE SEQUENCE RESTORED");
+    }
+  }
+
+  function addChoice(choiceId: string) {
+    setSelectedOrder((current) => {
+      if (current.includes(choiceId) || current.length >= data.correctOrder.length) {
+        return current;
+      }
+      return [...current, choiceId];
+    });
+    setStatus("idle");
+  }
+
+  function removeChoice(choiceId: string) {
+    setSelectedOrder((current) => current.filter((id) => id !== choiceId));
+    setStatus("idle");
+  }
+
+  return (
+    <ModalShell onClose={onClose}>
+      <div className="mb-4 font-pixel text-[9px] text-[var(--color-text-muted)]">
+        JADE KEY / ARCHIVE ORDERING
+      </div>
+      <h2 className="font-pixel text-base text-[var(--color-neon-yellow)] neon-glow">
+        {puzzle.name}
+      </h2>
+      <p className="mt-4 text-sm leading-relaxed text-[var(--color-text-secondary)]">
+        {puzzle.hint}
+      </p>
+      <p className="mt-3 text-sm leading-relaxed text-[var(--color-neon-cyan)]">
+        {data.instructions}
+      </p>
+
+      {!solved ? (
+        <>
+          <div className="mt-6 grid gap-4 md:grid-cols-[1fr_1fr]">
+            <section className="rounded border border-[var(--color-neon-purple)]/40 bg-[var(--color-deep-bg)]/70 p-4">
+              <p className="font-pixel text-[9px] text-[var(--color-text-muted)]">
+                UNSORTED RECORDS
+              </p>
+              <div className="mt-4 space-y-3">
+                {remainingChoices.map((choice) => (
+                  <button
+                    key={choice.id}
+                    type="button"
+                    onClick={() => addChoice(choice.id)}
+                    className="block w-full rounded border border-[var(--color-text-muted)]/40 bg-[var(--color-shadow)]/60 p-3 text-left transition-colors hover:border-[var(--color-neon-cyan)]"
+                  >
+                    <span className="font-pixel text-[10px] text-[var(--color-text-primary)]">
+                      {choice.label}
+                    </span>
+                    <span className="mt-2 block text-sm leading-relaxed text-[var(--color-text-secondary)]">
+                      {choice.detail}
+                    </span>
+                  </button>
+                ))}
+                {remainingChoices.length === 0 && (
+                  <p className="rounded border border-[var(--color-text-muted)]/30 p-3 text-sm text-[var(--color-text-muted)]">
+                    所有唱片都已经放入播放序列。
+                  </p>
+                )}
+              </div>
+            </section>
+
+            <section className="rounded border border-[var(--color-neon-cyan)]/40 bg-[var(--color-deep-bg)]/70 p-4">
+              <p className="font-pixel text-[9px] text-[var(--color-text-muted)]">
+                PLAYBACK ORDER
+              </p>
+              <div className="mt-4 space-y-3">
+                {data.correctOrder.map((slotId, index) => {
+                  const choice = selectedChoices[index];
+                  return (
+                    <div
+                      key={`${slotId}-${index}`}
+                      className="min-h-20 rounded border border-[var(--color-text-muted)]/30 bg-[var(--color-shadow)]/50 p-3"
+                    >
+                      <p className="font-pixel text-[8px] text-[var(--color-neon-yellow)]">
+                        SLOT {index + 1}
+                      </p>
+                      {choice ? (
+                        <button
+                          type="button"
+                          onClick={() => removeChoice(choice.id)}
+                          className="mt-2 block w-full text-left"
+                        >
+                          <span className="font-pixel text-[10px] text-[var(--color-neon-cyan)]">
+                            {choice.label}
+                          </span>
+                          <span className="mt-2 block text-sm text-[var(--color-text-secondary)]">
+                            {choice.detail}
+                          </span>
+                        </button>
+                      ) : (
+                        <p className="mt-3 text-sm text-[var(--color-text-muted)]">
+                          等待唱片...
+                        </p>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+          </div>
+
+          {status === "wrong" && (
+            <div className="mt-5 rounded border border-[var(--color-neon-magenta)] bg-[var(--color-neon-magenta)]/10 p-4">
+              <p className="text-sm leading-relaxed text-[var(--color-text-primary)]">
+                {data.failureText}
+              </p>
+            </div>
+          )}
+
+          {hintLevel > 0 && (
+            <p className="mt-4 text-sm leading-relaxed text-[var(--color-neon-yellow)]">
+              {puzzle.hints[hintLevel - 1]}
+            </p>
+          )}
+
+          <div className="mt-6 grid gap-3 sm:grid-cols-3">
+            <button
+              type="button"
+              onClick={() => {
+                setSelectedOrder([]);
+                setStatus("idle");
+              }}
+              className="rounded border border-[var(--color-text-muted)] px-4 py-2 font-pixel text-[10px] text-[var(--color-text-muted)] hover:border-[var(--color-neon-cyan)] hover:text-[var(--color-neon-cyan)]"
+            >
+              重排
+            </button>
+            <button
+              type="button"
+              onClick={() =>
+                setHintLevel((level) => Math.min(puzzle.maxHints, level + 1))
+              }
+              className="rounded border border-[var(--color-neon-yellow)]/70 px-4 py-2 font-pixel text-[10px] text-[var(--color-neon-yellow)] hover:bg-[var(--color-neon-yellow)] hover:text-black"
+            >
+              Echo-7 提示 {hintLevel}/{puzzle.maxHints}
+            </button>
+            <button
+              type="button"
+              onClick={submit}
+              className="rounded border border-[var(--color-neon-magenta)] bg-[var(--color-neon-magenta)]/10 px-4 py-2 font-pixel text-[10px] text-[var(--color-neon-magenta)] hover:bg-[var(--color-neon-magenta)] hover:text-black"
+            >
+              播放序列
+            </button>
+          </div>
+        </>
+      ) : (
+        <div className="mt-6 rounded border border-[var(--color-neon-green)] bg-[var(--color-neon-green)]/10 p-4">
+          <p className="font-pixel text-xs text-[var(--color-neon-green)] neon-glow">
+            SEQUENCE RESTORED
+          </p>
+          <p className="mt-3 text-sm leading-relaxed text-[var(--color-text-primary)]">
+            {data.successText}
+          </p>
+          <button
+            type="button"
+            onClick={onClose}
+            className="mt-5 rounded bg-[var(--color-neon-green)] px-5 py-2 font-pixel text-[10px] text-black"
+          >
+            收下校准片
+          </button>
+        </div>
+      )}
+    </ModalShell>
+  );
 }
 
 function CodePuzzle({

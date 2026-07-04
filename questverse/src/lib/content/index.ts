@@ -12,9 +12,11 @@ import {
   scenesVinylVault,
   lostFrequenciesPuzzle,
   reversedLabelPuzzle,
+  recordReleaseOrderPuzzle,
   vinylKeyFragment,
   secondSignalNote,
   rewindLabelNote,
+  vinylCalibrationNote,
   cutFrameNote,
 } from "./planets/vinyl-vault";
 import type { Item, Puzzle, Scene } from "@/types/scene";
@@ -41,6 +43,7 @@ export const puzzlesById = new Map<string, Puzzle>([
   [arcadeSystemMapPuzzle.id, arcadeSystemMapPuzzle],
   [lostFrequenciesPuzzle.id, lostFrequenciesPuzzle],
   [reversedLabelPuzzle.id, reversedLabelPuzzle],
+  [recordReleaseOrderPuzzle.id, recordReleaseOrderPuzzle],
 ]);
 
 // 物品
@@ -51,6 +54,7 @@ export const itemsById = new Map<string, Item>([
   [vinylKeyFragment.id, vinylKeyFragment],
   [secondSignalNote.id, secondSignalNote],
   [rewindLabelNote.id, rewindLabelNote],
+  [vinylCalibrationNote.id, vinylCalibrationNote],
   [cutFrameNote.id, cutFrameNote],
 ]);
 

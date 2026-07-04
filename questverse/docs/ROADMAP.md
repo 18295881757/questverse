@@ -5,7 +5,7 @@
 | 阶段 | 时间 | 目标 | 关键交付物 |
 |---|---|---|---|
 | Phase 1 | M1-M2 | 概念设计 | GDD、风格指南、两颗星球设计、数据模型 |
-| Phase 2 | M3-M4 | MVP 原型 | 第一颗星球可玩 demo |
+| Phase 2 | M3-M4 | MVP 原型 | 桌面网页 demo |
 | Phase 3 | M5-M6 | 核心游戏 | 三类谜题 + 三颗星球 + 完整叙事 |
 | Phase 4 | M7+ | 扩展 | UGC、社交、Steam 发布 |
 
@@ -38,7 +38,7 @@
 
 ## Phase 2 任务清单 (M3-M4)
 
-### 当前切片：第一颗星球可玩闭环
+### 验收范围：桌面网页 demo
 
 - [x] 解开铜钥匙后开放 `neon_arcade_hidden_room`
 - [x] 隐藏房间新增 A.N. Reverie 终端、Atari 主机彩蛋、手写便签
@@ -50,15 +50,18 @@
 - [x] 通用智慧/密码谜题 UI (`PuzzleCode`)
 - [x] 新增 2 条非钥匙线索链：隐藏房间系统地图、试听室倒放标签
 - [x] 第二星球新增磁带档案室：`decoded_rewind_label` → `vinyl_vault_tape_archive` → `note_reverie_cut_frame`
+- [x] 第一颗星球扩展到 5+ 个实际可用 hotspots
+- [x] 第二星球新增 Echo-7 接收器、唱片排序谜题和失败反馈
+- [x] 补充 30-45 分钟试玩节奏文档：`docs/playtest-pacing.md`
+- [x] 移动端 375x667 截图烟测
 
-### 待办
+### 已转入最终保留项
 
-- [ ] 第一颗星球扩展到 5+ 个实际可用 hotspots
-- [ ] 第二星球扩展为 15+ 分钟完整关卡（唱片排序、失败反馈、角色化提示）
-- [ ] 补充 30-45 分钟试玩节奏文档
-- [ ] 移动端 375x667 专项复测
-- [ ] 键盘导航可访问性复测
-- [ ] 发布公开 demo URL
+- [x] 移动端 375x667 专项复测 → `docs/final-backlog.md`
+- [x] 键盘导航可访问性完整复测 → `docs/final-backlog.md`
+- [x] 3D 星球模型 / 3D 星球选择页 → `docs/final-backlog.md`
+- [x] 第二星球恐怖氛围深度增强 → `docs/final-backlog.md`
+- [x] 发布公开 demo URL → `docs/final-backlog.md`
 
 ## 关键里程碑
 
@@ -97,4 +100,4 @@
 - 移动端原生 app
 - 真实支付
 
-> 最后更新: 2026-07-03
+> 最后更新: 2026-07-04

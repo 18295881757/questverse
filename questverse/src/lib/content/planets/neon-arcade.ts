@@ -53,6 +53,46 @@ export const scenesNeonArcade: Scene[] = [
         },
       },
       {
+        id: "hs_reverie_sign",
+        x: 41,
+        y: 14,
+        width: 24,
+        height: 10,
+        label: "霓虹招牌",
+        trigger: {
+          kind: "easter_egg",
+          eggId: "atari_1977",
+          flavorText:
+            "招牌下方的细字写着 SINCE 1977。致敬 Atari 2600 进入家庭客厅的那一年。",
+        },
+      },
+      {
+        id: "hs_coin_atm",
+        x: 63,
+        y: 60,
+        width: 8,
+        height: 13,
+        label: "换币机",
+        trigger: {
+          kind: "examine",
+          text: "换币机卡在 0.25 USD 的价格上。屏幕提示：真正的入口从来不是投币口，而是你愿不愿意把手伸向旧机器。",
+        },
+      },
+      {
+        id: "hs_blinky_reflection",
+        x: 86,
+        y: 72,
+        width: 7,
+        height: 6,
+        label: "红色倒影",
+        trigger: {
+          kind: "easter_egg",
+          eggId: "blinky_pacman",
+          flavorText:
+            "雨水里浮着一个红色鬼影般的反光。致敬《Pac-Man》里永远追在玩家身后的 Blinky。",
+        },
+      },
+      {
         id: "hs_egg_pong",
         x: 5,
         y: 80,
@@ -117,6 +157,60 @@ export const scenesNeonArcade: Scene[] = [
           eggId: "ms_pac_man",
           flavorText:
             "👻 不要被幽灵追捕。致敬 1982 年由南梦宫制作的经典街机游戏《Ms. Pac-Man》。",
+        },
+      },
+      {
+        id: "hs_cabinet_donkey_kong",
+        x: 18,
+        y: 48,
+        width: 10,
+        height: 22,
+        label: "大金刚街机",
+        trigger: {
+          kind: "easter_egg",
+          eggId: "donkey_kong_1981",
+          flavorText:
+            "倾斜的脚手架和滚动的木桶仍在屏幕上闪烁。致敬 1981 年的《Donkey Kong》。",
+        },
+      },
+      {
+        id: "hs_cabinet_galaga",
+        x: 62,
+        y: 22,
+        width: 10,
+        height: 18,
+        label: "Galaga 机台",
+        trigger: {
+          kind: "easter_egg",
+          eggId: "galaga_1981",
+          flavorText:
+            "屏幕里的外星编队像霓虹蜂群一样俯冲。致敬 Namco 1981 年的《Galaga》。",
+        },
+      },
+      {
+        id: "hs_soda_machine",
+        x: 9,
+        y: 66,
+        width: 8,
+        height: 16,
+        label: "汽水机",
+        trigger: {
+          kind: "examine",
+          text: "汽水机只剩一罐发光的橙味汽水。投币口旁刻着一句话：别急着通关，先看看墙角。",
+        },
+      },
+      {
+        id: "hs_old_comic",
+        x: 84,
+        y: 71,
+        width: 10,
+        height: 8,
+        label: "旧漫画",
+        trigger: {
+          kind: "easter_egg",
+          eggId: "superman_1938",
+          flavorText:
+            "一本卷边的旧漫画摊在沙发上，封面只剩红蓝两色。致敬 1938 年的《Action Comics #1》。",
         },
       },
       {
@@ -202,6 +296,20 @@ export const scenesNeonArcade: Scene[] = [
             setsFlag: "decoded_arcade_map",
             storyProgress: 32,
           },
+        },
+      },
+      {
+        id: "hs_tetris_poster",
+        x: 16,
+        y: 27,
+        width: 10,
+        height: 13,
+        label: "方块海报",
+        trigger: {
+          kind: "easter_egg",
+          eggId: "tetris_1984",
+          flavorText:
+            "海报上的几何方块刚好缺了一格长条。致敬 1984 年诞生的《Tetris》。",
         },
       },
       {

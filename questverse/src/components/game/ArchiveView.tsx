@@ -40,6 +40,30 @@ const knownEasterEggs: Record<string, { title: string; detail: string }> = {
     title: "VHS Tracking Noise",
     detail: "旧录像带的雪花点，把缺失影像藏在时间码里。",
   },
+  atari_1977: {
+    title: "Atari 2600 / 1977",
+    detail: "家用游戏机把游乐场的一角带进客厅。",
+  },
+  blinky_pacman: {
+    title: "Blinky",
+    detail: "红色追逐者的倒影提醒玩家：经典角色也能藏在街边积水里。",
+  },
+  donkey_kong_1981: {
+    title: "Donkey Kong 1981",
+    detail: "脚手架、木桶和跳跃，构成早期平台游戏的舞台。",
+  },
+  galaga_1981: {
+    title: "Galaga 1981",
+    detail: "外星编队与街机厅里的霓虹蜂群。",
+  },
+  superman_1938: {
+    title: "Action Comics #1",
+    detail: "超级英雄流行文化的起点之一。",
+  },
+  tetris_1984: {
+    title: "Tetris 1984",
+    detail: "下落的方块把秩序和焦虑压进同一个网格。",
+  },
 };
 
 function hasStoreHydrated() {

@@ -69,6 +69,8 @@
 | 入口 | transition | 进入街机厅主厅 |
 | 街道垃圾 | easter_egg | "致敬 Pong 1972 - 一切开始的地方" |
 | ATM | examine | "提示：需要硬币 - 0.25 USD" |
+| 霓虹招牌 | easter_egg | Atari 2600 / 1977 |
+| 红色倒影 | easter_egg | Blinky / Pac-Man |
 
 **彩蛋（隐藏）**:
 - 街道的红色赛车 - 致敬《吃豆人》Blinky 幽灵配色
@@ -85,12 +87,26 @@
 | 招财猫 | examine | 文字 | 无 |
 | 隐藏房间入口 | transition | 进入隐藏房间 | 无 |
 | 沙发上的旧漫画 | easter_egg | 致敬 Superman #1 (1938) | 无 |
+| Donkey Kong 机台 | easter_egg | 致敬《Donkey Kong》(1981) | 无 |
+| Galaga 机台 | easter_egg | 致敬《Galaga》(1981) | 无 |
+| 汽水机 | examine | 引导玩家慢速探索墙角 | 无 |
 
 ### 3.3 场景 C: 隐藏房间 (hidden_room) - Phase 2 开放
 
 **视觉**: 80s 怀旧卧室 - Atari 2600 主机、CRT 电视、海报、书桌
 
 **剧情作用**: 这里有 A.N. Reverie 的笔记，是他留给玩家的第一封信。
+
+**Phase 2 可用热点**:
+
+| 位置 | 触发 | 内容 |
+|---|---|---|
+| 旧终端 | examine | Reverie 指向黑胶唱片室 |
+| Atari 主机 | easter_egg | Atari 2600 |
+| 手写笔记 | item | `note_reverie_first_signal` |
+| 系统地图 | puzzle | `puzzle_arcade_system_map`，输入 `ATARI` 获得路线图 |
+| 方块海报 | easter_egg | Tetris 1984 |
+| 回主厅 | transition | 返回 `neon_arcade_hall` |
 
 ---
 
@@ -208,4 +224,4 @@
 
 ---
 
-> **更新日期**: 2026-07-02
+> **更新日期**: 2026-07-04
