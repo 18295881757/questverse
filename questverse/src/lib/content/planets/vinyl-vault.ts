@@ -1,4 +1,4 @@
-import type { Item, Planet, PuzzleHiddenObject, Scene } from "@/types/scene";
+import type { Item, Planet, PuzzleCode, PuzzleHiddenObject, Scene } from "@/types/scene";
 
 /**
  * 第二颗星球：黑胶唱片室 (Vinyl Vault)
@@ -120,6 +120,42 @@ export const scenesVinylVault: Scene[] = [
         },
       },
       {
+        id: "hs_reversed_label",
+        x: 57,
+        y: 70,
+        width: 12,
+        height: 8,
+        label: "倒放标签",
+        trigger: {
+          kind: "puzzle",
+          puzzleId: "puzzle_reversed_label",
+          onSolve: {
+            itemId: "note_reverie_rewind_label",
+            setsFlag: "decoded_rewind_label",
+            storyProgress: 52,
+          },
+        },
+      },
+      {
+        id: "hs_tape_archive_door",
+        x: 88,
+        y: 34,
+        width: 8,
+        height: 24,
+        label: "磁带门",
+        trigger: {
+          kind: "transition",
+          targetSceneId: "vinyl_vault_tape_archive",
+          prompt:
+            "倒放标签贴近门上的读头时，磁带轮开始反向转动。门缝里漏出一帧被剪掉的影像。",
+          requires: {
+            flags: ["decoded_rewind_label"],
+            message:
+              "门上的读头只吐出一串反向字母：DNIWER。你还没有让它按正确方向播放。",
+          },
+        },
+      },
+      {
         id: "hs_exit_to_entry",
         x: 5,
         y: 38,
@@ -148,6 +184,73 @@ export const scenesVinylVault: Scene[] = [
             message:
               "抽屉里只有沙沙作响的静电。三段频率重合之后，它也许会吐出真正的声纹。",
           },
+        },
+      },
+    ],
+  },
+  {
+    id: "vinyl_vault_tape_archive",
+    name: "磁带档案室",
+    background: "/assets/images/places/vinyl_vault/tape-archive.svg",
+    darkMode: "night",
+    ambientMusic: "ambient_tape_archive",
+    hotspots: [
+      {
+        id: "hs_cut_frame_case",
+        x: 47,
+        y: 48,
+        width: 18,
+        height: 18,
+        label: "剪掉的帧",
+        trigger: {
+          kind: "item",
+          itemId: "note_reverie_cut_frame",
+          oneTime: true,
+          requires: {
+            items: ["note_reverie_rewind_label"],
+            message:
+              "胶片盒被一圈倒放磁带缠住。你需要先理解标签上的方向。",
+          },
+        },
+      },
+      {
+        id: "hs_vhs_wall",
+        x: 20,
+        y: 42,
+        width: 14,
+        height: 26,
+        label: "录像带墙",
+        trigger: {
+          kind: "easter_egg",
+          eggId: "vhs_tracking_noise",
+          flavorText:
+            "一排贴着手写标签的 VHS 磁带正在轻微抖动。致敬录像带追踪噪声、旧电视雪花点和那些只能倒回去看的家庭影像。",
+        },
+      },
+      {
+        id: "hs_archive_monitor",
+        x: 70,
+        y: 45,
+        width: 14,
+        height: 18,
+        label: "监看屏",
+        trigger: {
+          kind: "examine",
+          text:
+            "监看屏停在一帧黑场，只有时间码在跳动：00:03:17:REVERIE。像是在等待第三颗钥匙的影像源。",
+        },
+      },
+      {
+        id: "hs_archive_exit",
+        x: 6,
+        y: 38,
+        width: 8,
+        height: 28,
+        label: "回试听室",
+        trigger: {
+          kind: "transition",
+          targetSceneId: "vinyl_vault_listening_room",
+          prompt: "回到唱针和噪声仍在循环的试听室。",
         },
       },
     ],
@@ -197,6 +300,30 @@ export const lostFrequenciesPuzzle: PuzzleHiddenObject = {
   easterEgg: "reversed_tape_signal",
 };
 
+export const reversedLabelPuzzle: PuzzleCode = {
+  id: "puzzle_reversed_label",
+  type: "wisdom",
+  name: "倒放标签",
+  hint: "标签上的字母像被磁带机咬过：DNIWER。你需要按它真正播放的方向读出来。",
+  hints: [
+    "提示 1: 这间房间一直在谈倒放。",
+    "提示 2: DNIWER 不是乱码，它只是方向错了。",
+    "提示 3: 输入 REWIND。",
+  ],
+  maxHints: 3,
+  inputLength: 12,
+  correctAnswer: "REWIND",
+  charset: "A-Z",
+  placeholder: "DECODE LABEL",
+  reward: {
+    itemId: "note_reverie_rewind_label",
+    storyProgress: 52,
+    setsFlag: "decoded_rewind_label",
+  },
+  successText:
+    "标签背面的磁粉浮出一句话：'下一段影像要先倒回去看，真正缺失的不是画面，是剪辑点。'",
+};
+
 export const vinylKeyFragment: Item = {
   id: "key_fragment_vinyl",
   name: "Vinyl 钥匙碎片",
@@ -215,4 +342,24 @@ export const secondSignalNote: Item = {
   icon: "〰️",
   lore:
     "这段声纹把玉钥匙指向下一段旅程：影像、倒放和那些被剪掉的镜头。",
+};
+
+export const rewindLabelNote: Item = {
+  id: "note_reverie_rewind_label",
+  name: "Reverie 的倒放标签",
+  description:
+    "一枚从磁带盒背面揭下的标签：'下一段影像要先倒回去看，真正缺失的不是画面，是剪辑点。'",
+  icon: "⏪",
+  lore:
+    "这条线索把黑胶唱片室和未来的影像星球接起来：不是所有答案都藏在当前帧，有些藏在剪辑顺序里。",
+};
+
+export const cutFrameNote: Item = {
+  id: "note_reverie_cut_frame",
+  name: "Reverie 的剪帧索引",
+  description:
+    "一张夹在胶片盒里的索引卡：'第三把钥匙不在完整影片里，它在被剪掉的 3 分 17 秒。'",
+  icon: "🎞️",
+  lore:
+    "这是通往未来影像星球的第一个硬线索。Reverie 暗示玩家要寻找不在正片里的内容：删减、倒放、时间码和剪辑点。",
 };

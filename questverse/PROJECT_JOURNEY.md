@@ -486,6 +486,28 @@ Phase 2 的目标从"概念可运行"推进到"第一颗星球可玩 demo"：
 - 做移动端 375x667 和键盘导航专项复测
 - 准备公开 demo URL
 
+### 11.5 Phase 2 后续开发：线索链扩展
+
+在第一块可玩闭环之后，Phase 2 继续补足“不是所有互动都只为拿钥匙”的探索层：
+
+- 新增通用 `PuzzleCode` 智慧/密码谜题 UI，可复用于后续星球的文字、密码、倒放与档案解码谜题
+- 隐藏房间新增“系统地图”谜题：输入 `ATARI` 后获得 `note_arcade_system_map`
+- 黑胶试听室新增“倒放标签”谜题：把 `DNIWER` 倒读为 `REWIND` 后获得 `note_reverie_rewind_label`
+- 两条线索都写入 LocalStorage inventory，并会出现在真实档案页的 FIELD NOTES 中
+
+这一步的目的不是增加难度，而是把试玩节奏从“拿钥匙就结束”扩展为“拿到钥匙后继续解读 Reverie 留下的路线图”。
+
+### 11.6 Phase 2 后续开发：黑胶星球第三场景
+
+为让倒放标签产生真实空间后果，黑胶唱片室新增第三个场景：
+
+- 新增 `vinyl_vault_tape_archive` 磁带档案室场景与背景图 `tape-archive.svg`
+- 试听室新增“磁带门”，需要 `decoded_rewind_label` 才可进入
+- 档案室新增 `note_reverie_cut_frame` 线索，指向未来影像星球与第三把钥匙
+- 档案室新增 VHS tracking noise 彩蛋与监看屏时间码 `00:03:17:REVERIE`
+
+这一步把第二星球从“一个房间 + 一个谜题”扩展为“试听室 → 倒放标签 → 磁带档案室 → 第三钥匙伏笔”的小型探索链。
+
 ---
 
 ## 📊 文档信息

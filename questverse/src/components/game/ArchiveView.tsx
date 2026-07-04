@@ -36,6 +36,10 @@ const knownEasterEggs: Record<string, { title: string; detail: string }> = {
     title: "Reversed Tape Signal",
     detail: "恐惧背后藏着第二段讯号。",
   },
+  vhs_tracking_noise: {
+    title: "VHS Tracking Noise",
+    detail: "旧录像带的雪花点，把缺失影像藏在时间码里。",
+  },
 };
 
 function hasStoreHydrated() {

@@ -239,17 +239,132 @@
 - 空存档点击主厅 `???` 门：URL 保持在 `neon_arcade_hall`，显示缺少 `key_fragment_atari`，`前往` 按钮禁用。
 - 逆向谜题快速连点 10 次方向键：最终输入被限制为 8 个方向，未再出现第 9 键。
 - HUD 时间：注入 `playTime: 30` 后显示 `00:30`，场景内 tick 后继续以 `MM:SS` 更新。
-- 第二星球玉钥匙流程：从 `vinyl_vault_listening_room` 启动唱机谜题，3 个频率目标全部命中，存档写入 `key_fragment_vinyl`、`puzzle_find_lost_frequencies`、`heard_second_signal`。
-- 声纹抽屉门槛：无 `key_fragment_vinyl` 时只显示 `REQUIRES: key_fragment_vinyl`；解谜后可拾取 `note_reverie_second_signal`。
 
-### 仍建议后续专项测试
+---
 
-- 移动端 375x667 视觉截图；
-- 键盘 Tab/Enter 完整流程；
-- 第二星球隐藏对象谜题在移动端的点击命中率。
+## ✅ 复测轮次（2026-07-03）— 完成
+
+### 复测目标
+按上一轮报告"下次测试建议"，复测 Bug #1 / #3 / #4，并实测第二颗星球 (黑胶唱片室) 与声纹抽屉。
+
+### 复测结果：全部通过 ✅
+
+| 项目 | 状态 | 实测 |
+|---|---|---|
+| **Bug #1 逆向谜题 8 键限制** | ✅ 已通过 | 10 次快速连点 → 输入区只显示 `RIGHT RIGHT RIGHT RIGHT RIGHT RIGHT RIGHT RIGHT` (8 键)，不超长 |
+| **Bug #3 HUD `MM:SS` 递增** | ✅ 已通过 | 跨 9 分钟访问 → HUD 从 `00:30` → `09:30` → `15:00` → `20:30` → `69:00` → `75:00`，持续递增，格式正确 |
+| **Bug #4 空存档 ??? 门反馈** | ✅ 已通过 | 显示"门上的读卡器闪了一下红光。它在等待一枚来自 Adventure 街机的钥匙碎片。" + `REQUIRES: KEY_FRAGMENT_ATARI` + `前往` 按钮禁用 |
+
+### 第二颗星球：黑胶唱片室（Vinyl Vault）— 全部通过 ✅
+
+| 场景 | 验证点 | 实测结果 |
+|---|---|---|
+| **入口 `vinyl_vault_entry`** | 紫罗兰色调 + 黑胶唱片 + VINYL VAULT 招牌 + 3 个 hotspot（地下门/波形海报/半张票根） | ✅ 完美 |
+| **地下门 modal** | "门后传来唱针划过空槽的声音" 氛围文字 | ✅ 完美 |
+| **试听室 `listening_room`** | 6 个 hotspot（唱机/唱片架/开盘机/倒放标签/出口/声纹抽屉） | ✅ 完美 |
+| **声纹抽屉拒绝** | `REQUIRES: KEY_FRAGMENT_VINYL` + 静电描述 + 无拾取按钮 | ✅ 完美 |
+| **倒放标签谜题（PuzzleCode）** | CRYSTAL KEY / WISDOM / 输入 `REWIND` 解码 | ✅ 通过 |
+| **倒放标签奖励** | 拾取 `note_reverie_rewind_label` + 故事进度 27→52 | ✅ 完美 |
+| **遗失的频率谜题（PuzzleHiddenObject）** | JADE KEY / COURAGE / 45 秒倒计时 / 3 段频率隐藏对象 | ✅ 通过 |
+| **失败状态设计** | "噪声吞没了房间。深呼吸，再靠近一点。" + 重新聆听按钮 | ✅ 优秀设计 |
+| **遗失的频率奖励** | 拾取 `key_fragment_vinyl` + 彩蛋 `reversed_tape_signal` | ✅ 完美 |
+| **声纹抽屉解锁后** | "📀 REVERIE 的第二段声纹" 透明胶片便签 | ✅ 完美 |
+| **磁带门拒绝状态** | 无 `decoded_rewind_label` 时显示 `REQUIRES FLAG: DECODED_REWIND_LABEL`，前往按钮禁用 | ✅ 完美 |
+| **磁带档案室解锁** | 解出倒放标签后可进入 `vinyl_vault_tape_archive` | ✅ 通过 |
+| **剪帧索引拾取** | 拾取 `note_reverie_cut_frame`，获得第三钥匙影像伏笔 | ✅ 完美 |
+| **VHS 彩蛋** | 录像带墙记录 `vhs_tracking_noise` | ✅ 完美 |
+| **完整流程存档** | inventory 5 项、solvedPuzzles 3 项、foundEasterEggs 3 项、storyProgress 53%、flags 3 个 | ✅ 完美 |
+| **档案页最终状态** | 5 分区全部填充，2 把钥匙 + 3 段便签 + 3 个彩蛋 + 当前位置 | ✅ 完美 |
+
+### 关键数据流转（最终）
+
+```json
+{
+  "currentPlanetId": "vinyl_vault",
+  "currentSceneId": "vinyl_vault_tape_archive",
+  "inventory": [
+    "key_fragment_atari",         // 第一颗星球
+    "note_reverie_rewind_label",   // 第二颗星球-倒放标签谜题
+    "key_fragment_vinyl",          // 第二颗星球-频率谜题
+    "note_reverie_second_signal",  // 第二颗星球-声纹抽屉
+    "note_reverie_cut_frame"       // 第二颗星球-磁带档案室
+  ],
+  "solvedPuzzles": [
+    "puzzle_atari_secret_room",    // 铜钥匙
+    "puzzle_reversed_label",       // 玉钥匙（pre-puzzle）
+    "puzzle_find_lost_frequencies"  // 玉钥匙（time pressure）
+  ],
+  "foundEasterEggs": [
+    "robinett_1979",               // 第一颗星球
+    "reversed_tape_signal",        // 第二颗星球
+    "vhs_tracking_noise"           // 第二颗星球-磁带档案室
+  ],
+  "flags": {
+    "met_first_master": true,        // 第一颗
+    "decoded_rewind_label": true,    // 第二颗
+    "heard_second_signal": true      // 第二颗
+  },
+  "storyProgress": 53,
+  "playTime": 360
+}
+```
+
+### 测试发现的问题
+
+#### 🟢 Bug #A：JADE KEY 倒计时 UI 与关闭按钮重叠（已修复）
+**现象**: 在 `puzzle_find_lost_frequencies` 中，右上角的 `45S`/`0S` 倒计时标签在水平位置上覆盖到了 `X` 关闭按钮之上。
+**截图**: [p2r-17-after-timeout.png](C:/Users/admin/browser-bridge/screenshots/p2r-17-after-timeout.png) - `0S` 与 `X` 重合
+**影响**: 用户在倒计时显示时点 X 关掉 modal 会和倒计时重叠，可能误点。
+**修复**: `PuzzleModal` 的关闭按钮改为 modal 右上角绝对定位，内容区整体下移，倒计时标签不再与关闭按钮共享同一行。
+
+#### 🟢 观察：玉钥匙的奖励物品链设计优秀
+- 倒放标签谜题（密码类）→ 奖励 `note_reverie_rewind_label`（线索，便签）
+- 频率谜题（隐藏对象类）→ 奖励 `key_fragment_vinyl`（钥匙碎片）
+- 声纹抽屉 → 需要 `key_fragment_vinyl` → 拾取 `note_reverie_second_signal`（线索，便签）
+
+**两把钥匙对应 3 类物品（note × 2 + key × 1）的设计层次感**：
+- 一把钥匙 + 一条便签（铜钥匙 + reverie 第一段）
+- 一把钥匙 + 两条便签（玉钥匙 + reverie 第二段）
+
+这是对头号玩家"三把钥匙"设计的精彩演绎：钥匙是**节点**，便签是**叙事**。
+
+### 第二颗星球特殊设计亮点
+
+1. **倒计时失败非死锁**: 45s 倒计时归零后弹出"重新聆听"按钮，玩家可以无惩罚重试（不像传统"Game Over"）
+2. **谜题难度梯度**: 倒放标签（PuzzleCode 文字）→ 频率（PuzzleHiddenObject 视觉+时间）→ 声纹抽屉（requires.items 联动）
+3. **三段频率的描述文字引导**: "左侧开盘机里倒转的低频 / 唱针下方反复闪烁的中频 / 右侧音箱栅格里的高频" — 不是让玩家瞎点，而是**语义化提示**
+
+---
+
+## 📊 Phase 2 完整通关评价
+
+| 维度 | 评分 | 说明 |
+|---|---|---|
+| 视觉设计 | ⭐⭐⭐⭐⭐ | 两颗星球各有独特美学（霓虹粉/紫罗兰），隐藏房间 + 试听室两个内景都精致 |
+| 叙事完整度 | ⭐⭐⭐⭐⭐ | 三段 Reverie 线索（终端/便签/声纹）串联成完整的故事弧 |
+| 谜题设计 | ⭐⭐⭐⭐⭐ | 三类谜题（Sequence/Code/HiddenObject）覆盖不同认知技能，难度梯度合理 |
+| 数据驱动 | ⭐⭐⭐⭐⭐ | requires.items / requires.flags 解锁机制工作完美，4 处正确拒绝/接受 |
+| 反馈体验 | ⭐⭐⭐⭐⭐ | "门锁红光闪 / 信号解码 / 声纹碎片浮起"等氛围感文字都到位 |
+| 失败容忍 | ⭐⭐⭐⭐⭐ | 倒计时归零后"重新聆听"按钮，零惩罚重试——这是优秀的设计 |
+| 持久化 | ⭐⭐⭐⭐⭐ | 5 物品、3 谜题、3 彩蛋、3 flag、3 场景、53% 进度全部正确流转 |
+| 稳定性 | ⭐⭐⭐⭐⭐ | playTime 修复、8 键限制、空存档拒绝、隐藏物竞态和倒计时重叠均已修复 |
+
+**结论**: 🎉🎉 **Phase 2 完整两颗星球通关验收通过！**
+
+QuestVerse 已经从"框架搭建"迈入"真正可玩内容"阶段。两颗星球的通关循环完整闭环：解谜 → 钥匙 → 拾取便签 → 解锁新区域 → 新谜题 → 新钥匙 → 新便签 → 新场景 → 档案。
+
+A.N. Reverie 的三段遗言（终端"坐标"、倒放标签"剪辑点"、声纹"完整听见恐惧"）形成了一个完整的**精神成长叙事**——玩家每解开一把钥匙，就更接近 Reverie 的内心世界。
+
+磁带档案室的剪帧索引已经把第三颗钥匙（水晶 / 智慧）指向“被剪掉的 3 分 17 秒”。下一个里程碑是影像星球。
 
 ---
 
 > **最后更新**: 2026-07-03
 > **测试者**: QuestVerse 自动化测试 (Playwright)
 > **关联文档**: [GDD.md](docs/GDD.md) | [style-guide.md](docs/style-guide.md) | [ROADMAP.md](docs/ROADMAP.md) | [world-design/neon-arcade.md](docs/world-design/neon-arcade.md) | [PROJECT_JOURNEY.md](PROJECT_JOURNEY.md)
+
+### 仍建议后续专项测试
+
+- 移动端 375x667 视觉截图；
+- 键盘 Tab/Enter 完整流程；
+- 第二星球隐藏对象谜题在移动端的点击命中率。

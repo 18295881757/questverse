@@ -197,6 +197,10 @@ export interface PuzzleCode extends PuzzleBase {
   correctAnswer: string;
   /** 输入字符集（如 "0123456789"）*/
   charset?: string;
+  /** 输入框占位提示 */
+  placeholder?: string;
+  /** 解开后显示的文本 */
+  successText?: string;
 }
 
 /** 逻辑谜题 */

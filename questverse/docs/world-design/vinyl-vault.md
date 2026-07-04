@@ -55,8 +55,21 @@
 | 唱机 | puzzle | `puzzle_find_lost_frequencies` |
 | 整齐的唱片架 | easter_egg | Kraftwerk 的电子音乐秩序感 |
 | 开盘机 | examine | 倒转磁带暗示 |
+| 倒放标签 | puzzle | `puzzle_reversed_label`，将 `DNIWER` 解码为 `REWIND` |
+| 磁带门 | transition | 需要 `decoded_rewind_label`，进入磁带档案室 |
 | 出口 | transition | 返回门口 |
 | 声纹抽屉 | item | 完成玉钥匙谜题后拾取 `note_reverie_second_signal` |
+
+### 3.3 场景 C：磁带档案室
+
+**视觉**：VHS 墙、监看屏、倒放磁带门、夹着索引卡的胶片盒。
+
+| 热点 | 触发 | 内容 |
+|---|---|---|
+| 剪掉的帧 | item | 需要 `note_reverie_rewind_label`，拾取 `note_reverie_cut_frame` |
+| 录像带墙 | easter_egg | VHS tracking noise / 旧电视雪花点 |
+| 监看屏 | examine | 时间码 `00:03:17:REVERIE`，第三钥匙伏笔 |
+| 回试听室 | transition | 返回试听室 |
 
 ---
 
@@ -84,11 +97,14 @@
 
 > 不是所有恐惧都需要被战胜，有些只需要被完整听见。
 
+试听室里的 **倒放标签** 会进一步解锁磁带档案室。玩家把 `DNIWER` 倒读为 `REWIND` 后，可进入档案室拾取 **Reverie 的剪帧索引**：
+
+> 第三把钥匙不在完整影片里，它在被剪掉的 3 分 17 秒。
+
 ---
 
 ## 5. 后续扩展
 
-- 增加倒放音频文本谜题；
 - 加入唱片排序谜题，按发行年份或音乐风格排列；
 - 让 Echo-7 在玩家失败后给出更有情绪的反馈；
 - 将唱片室作为“玉钥匙”完整星球的第一段。

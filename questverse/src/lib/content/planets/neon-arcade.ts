@@ -1,4 +1,4 @@
-import type { Item, Planet, PuzzleSequence, Scene } from "@/types/scene";
+import type { Item, Planet, PuzzleCode, PuzzleSequence, Scene } from "@/types/scene";
 
 /**
  * 第一颗星球：霓虹街机厅 (Neon Arcade)
@@ -188,6 +188,23 @@ export const scenesNeonArcade: Scene[] = [
         },
       },
       {
+        id: "hs_system_map",
+        x: 73,
+        y: 32,
+        width: 12,
+        height: 16,
+        label: "系统地图",
+        trigger: {
+          kind: "puzzle",
+          puzzleId: "puzzle_arcade_system_map",
+          onSolve: {
+            itemId: "note_arcade_system_map",
+            setsFlag: "decoded_arcade_map",
+            storyProgress: 32,
+          },
+        },
+      },
+      {
         id: "hs_hidden_room_exit",
         x: 5,
         y: 48,
@@ -233,6 +250,30 @@ export const firstPuzzle: PuzzleSequence = {
   reverseExecution: true,
 };
 
+export const arcadeSystemMapPuzzle: PuzzleCode = {
+  id: "puzzle_arcade_system_map",
+  type: "wisdom",
+  name: "系统地图：第一坐标",
+  hint: "墙上的系统地图被一层绿色光标锁住。旁边写着：'不是钥匙打开地图，而是来源打开地图。'",
+  hints: [
+    "提示 1: 看看第一枚钥匙来自哪里。",
+    "提示 2: 不是 Warren Robinett 的名字，而是那台机器的姓氏。",
+    "提示 3: 输入 ATARI。",
+  ],
+  maxHints: 3,
+  inputLength: 12,
+  correctAnswer: "ATARI",
+  charset: "A-Z",
+  placeholder: "SOURCE",
+  reward: {
+    itemId: "note_arcade_system_map",
+    storyProgress: 32,
+    setsFlag: "decoded_arcade_map",
+  },
+  successText:
+    "系统地图亮起一条从街机厅通往唱片室的紫色路线：'第二段讯号不是下一站，而是校准器。'",
+};
+
 // 第一颗星球的钥匙碎片（奖杯）
 export const firstKeyFragment: Item = {
   id: "key_fragment_atari",
@@ -252,4 +293,14 @@ export const firstSignalNote: Item = {
   icon: "📝",
   lore:
     "A.N. Reverie 没有直接告诉玩家答案。他只留下足够多的方向，让愿意继续探索的人自己走到下一颗星球。",
+};
+
+export const arcadeSystemMapNote: Item = {
+  id: "note_arcade_system_map",
+  name: "街机厅系统地图",
+  description:
+    "一张从隐藏房间投影出的线路图：铜钥匙是坐标，玉钥匙是校准器，第三段讯号会出现在被剪掉的影像里。",
+  icon: "🗺️",
+  lore:
+    "Reverie 把每把钥匙都当作一种读法，而不是单纯的奖杯。玩家需要把钥匙碎片当成语言来理解。",
 };

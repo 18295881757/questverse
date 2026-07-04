@@ -2,15 +2,20 @@ import {
   planetNeonArcade,
   scenesNeonArcade,
   firstPuzzle,
+  arcadeSystemMapPuzzle,
   firstKeyFragment,
   firstSignalNote,
+  arcadeSystemMapNote,
 } from "./planets/neon-arcade";
 import {
   planetVinylVault,
   scenesVinylVault,
   lostFrequenciesPuzzle,
+  reversedLabelPuzzle,
   vinylKeyFragment,
   secondSignalNote,
+  rewindLabelNote,
+  cutFrameNote,
 } from "./planets/vinyl-vault";
 import type { Item, Puzzle, Scene } from "@/types/scene";
 
@@ -33,15 +38,20 @@ export const scenesById = new Map<string, Scene>(
 // 谜题
 export const puzzlesById = new Map<string, Puzzle>([
   [firstPuzzle.id, firstPuzzle],
+  [arcadeSystemMapPuzzle.id, arcadeSystemMapPuzzle],
   [lostFrequenciesPuzzle.id, lostFrequenciesPuzzle],
+  [reversedLabelPuzzle.id, reversedLabelPuzzle],
 ]);
 
 // 物品
 export const itemsById = new Map<string, Item>([
   [firstKeyFragment.id, firstKeyFragment],
   [firstSignalNote.id, firstSignalNote],
+  [arcadeSystemMapNote.id, arcadeSystemMapNote],
   [vinylKeyFragment.id, vinylKeyFragment],
   [secondSignalNote.id, secondSignalNote],
+  [rewindLabelNote.id, rewindLabelNote],
+  [cutFrameNote.id, cutFrameNote],
 ]);
 
 /**
