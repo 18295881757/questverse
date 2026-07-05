@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { NeonArcadeGestureWorld } from "@/components/game/NeonArcadeGestureWorld";
 import { SceneView } from "@/components/game/SceneView";
 import { getPlanet, getScene } from "@/lib/content";
 
@@ -21,6 +22,10 @@ export default async function PlayScenePage({
 
   if (!planet || !scene) {
     notFound();
+  }
+
+  if (planetId === "neon_arcade") {
+    return <NeonArcadeGestureWorld planetId={planetId} sceneId={sceneId} />;
   }
 
   return <SceneView planetId={planetId} sceneId={sceneId} />;

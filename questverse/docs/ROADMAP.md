@@ -54,12 +54,13 @@
 - [x] 第二星球新增 Echo-7 接收器、唱片排序谜题和失败反馈
 - [x] 补充 30-45 分钟试玩节奏文档：`docs/playtest-pacing.md`
 - [x] 移动端 375x667 截图烟测
+- [x] 第一星球 3D 霓虹圣树原型：接入 Three.js 与真实摄像头手势识别，保留原 hotspots / puzzle / inventory 交互
 
 ### 已转入最终保留项
 
 - [x] 移动端 375x667 专项复测 → `docs/final-backlog.md`
 - [x] 键盘导航可访问性完整复测 → `docs/final-backlog.md`
-- [x] 3D 星球模型 / 3D 星球选择页 → `docs/final-backlog.md`
+- [x] 完整 3D 星球选择页与全 3D 球面探索 → `docs/final-backlog.md`
 - [x] 第二星球恐怖氛围深度增强 → `docs/final-backlog.md`
 - [x] 发布公开 demo URL → `docs/final-backlog.md`
 
